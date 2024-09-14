@@ -1,0 +1,23 @@
+// handles swapping of ERC20 tokens to another
+
+function swapTokenBforA(uint amount) external returns (bool _success) {
+
+  require(amount > 0, "Zero Amount");
+
+  bool success = TokenB.transferFrom(msg.sender, address(this), amount);
+  require (success, "Swapping failed");
+
+  bool successSecond = TokenA.transfer(msg.sender, ((amount * 5e8)/1e9));
+  require (successSecond, "Swapping failed");
+
+  _success = true;
+
+  if (_success) 
+  {
+    emit TokensSwapped();
+  } 
+  else {
+    revert();
+  }
+
+}
